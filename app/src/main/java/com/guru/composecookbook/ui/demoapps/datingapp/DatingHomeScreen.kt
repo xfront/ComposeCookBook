@@ -30,7 +30,7 @@ import com.guru.composecookbook.ui.animation.FloatMultiStateAnimationCircleCanva
 import com.guru.composecookbook.ui.demoapps.datingapp.components.DraggableCard
 import com.guru.composecookbook.ui.demoapps.spotify.data.Album
 import com.guru.composecookbook.ui.demoapps.spotify.data.SpotifyDataProvider
-import com.guru.composecookbook.ui.utils.verticalGradientBackground
+import com.guru.composecookbook.theme.modifiers.verticalGradientBackground
 import kotlin.random.Random
 
 @Composable
@@ -170,9 +170,11 @@ fun CardContent(album: Album) {
 
 @Composable
 fun DatingLoader(modifier: Modifier) {
-    Box(contentAlignment = Alignment.Center, modifier = modifier
-        .fillMaxSize()
-        .clip(CircleShape)) {
+    Box(
+        contentAlignment = Alignment.Center, modifier = modifier
+            .fillMaxSize()
+            .clip(CircleShape)
+    ) {
         FloatMultiStateAnimationCircleCanvas(purple, 400f)
         Image(
             painter = painterResource(id = R.drawable.adele21),

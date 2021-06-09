@@ -26,16 +26,18 @@ import androidx.compose.ui.unit.sp
 import com.guru.composecookbook.theme.typography
 import com.guru.composecookbook.ui.demoapps.spotify.data.SpotifyDataProvider
 import com.guru.composecookbook.ui.utils.VerticalGrid
-import com.guru.composecookbook.ui.utils.horizontalGradientBackground
+import com.guru.composecookbook.theme.modifiers.horizontalGradientBackground
 
 @Composable
 fun SpotifySearchScreen() {
     val scrollState = rememberScrollState(0)
     val surfaceGradient = SpotifyDataProvider.spotifySurfaceGradient(isSystemInDarkTheme())
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .horizontalGradientBackground(surfaceGradient)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .horizontalGradientBackground(surfaceGradient)
+    ) {
         Text(
             text = "Search",
             style = typography.h3.copy(fontWeight = FontWeight.ExtraBold),

@@ -1,5 +1,6 @@
 package com.guru.composecookbook.ui.utils
 
+import FaIcons
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
@@ -22,35 +23,39 @@ import com.guru.fontawesomecomposelib.FaIcon
 
 @Composable
 fun ComingSoon() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(50.dp)
-    ) {
-        LottieLoadingView(context = LocalContext.current)
-        Text(
-            text = "Coming Soon",
-            style = typography.h5,
+    Surface {
+        Column(
             modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = "work in progress",
-            style = typography.subtitle2,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+                .fillMaxSize()
+                .padding(50.dp)
+        ) {
+            LottieLoadingView(context = LocalContext.current)
+            Text(
+                text = "Coming Soon",
+                style = typography.h5,
+                modifier = Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = "work in progress",
+                style = typography.subtitle2,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
 
 @Composable
 fun HeadingSection(modifier: Modifier = Modifier, title: String = "", subtitle: String = "") {
-    Column(modifier = modifier
-        .fillMaxWidth()
-        .padding(16.dp)) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
         if (title.isNotEmpty()) {
             Text(text = title, style = typography.h6.copy(fontSize = 14.sp))
         }

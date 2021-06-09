@@ -24,15 +24,17 @@ import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.guru.composecookbook.data.DemoDataProvider
-import com.guru.composecookbook.ui.demoapps.cryptoappmvvm.ui.home.components.MyWalletCard
+import com.guru.composecookbook.cryptoapp.ui.home.components.MyWalletCard
 import com.guru.composecookbook.ui.demoapps.gmail.home.GmailListItem
 import com.guru.composecookbook.ui.demoapps.youtube.YoutubeListItem
 
 @Composable
 fun ConstraintLayoutDemos() {
-    Column(modifier = Modifier
-        .verticalScroll(rememberScrollState())
-        .padding(8.dp)) {
+    Column(
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(8.dp)
+    ) {
         ConstraintLayoutListItem()
         Spacer(modifier = Modifier.height(20.dp))
         ConstraintLayoutBigListItem()

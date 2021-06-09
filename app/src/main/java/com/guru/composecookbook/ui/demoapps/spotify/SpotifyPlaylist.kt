@@ -25,7 +25,7 @@ import com.guru.composecookbook.ui.demoapps.spotify.data.Album
 import com.guru.composecookbook.ui.demoapps.spotify.data.SpotifyDataProvider
 import com.guru.composecookbook.ui.demoapps.spotify.details.SpotifyDetailActivity
 import com.guru.composecookbook.ui.utils.StaggeredVerticalGrid
-import com.guru.composecookbook.ui.utils.horizontalGradientBackground
+import com.guru.composecookbook.theme.modifiers.horizontalGradientBackground
 import kotlin.random.Random
 
 @Composable
@@ -56,12 +56,14 @@ fun PlaylistItemWithRandomHeight(album: Album, context: Context) {
     // Randomly pick height for album but remember the same height for that album.
     val randomHeight = remember(album.id) { Random.nextInt(180, 380).dp }
 
-    Card(elevation = 8.dp, modifier = Modifier
-        .padding(6.dp)
-        .clickable(onClick = {
-            //Disclaimer: We should pass event top level and there should startActivity
-            context.startActivity(SpotifyDetailActivity.newIntent(context, album))
-        })) {
+    Card(
+        elevation = 8.dp, modifier = Modifier
+            .padding(6.dp)
+            .clickable(onClick = {
+                //Disclaimer: We should pass event top level and there should startActivity
+                context.startActivity(SpotifyDetailActivity.newIntent(context, album))
+            })
+    ) {
         Column {
             Image(
                 painter = painterResource(album.imageId),

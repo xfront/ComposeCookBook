@@ -29,9 +29,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.guru.composecookbook.R
+import com.guru.composecookbook.tags.InterestTag
 import com.guru.composecookbook.theme.gradientBluePurple
 import com.guru.composecookbook.theme.typography
-import com.guru.composecookbook.ui.utils.horizontalGradientBackground
+import com.guru.composecookbook.theme.modifiers.horizontalGradientBackground
 
 private val initialimageFloat = 170f
 private val name = "Gurupreet Singh"
@@ -65,9 +66,11 @@ fun ProfileScreen() {
             val scrollState = rememberScrollState(0)
             TopAppBarView(scrollState.value.toFloat())
             TopBackground()
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(state = scrollState)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(state = scrollState)
+            ) {
                 Spacer(modifier = Modifier.height(100.dp))
                 TopScrollingContent(scrollState)
                 BottomScrollingContent()
@@ -102,9 +105,11 @@ fun TopScrollingContent(scrollState: ScrollState) {
 @ExperimentalMaterialApi
 @Composable
 fun BottomScrollingContent() {
-    Column(modifier = Modifier
-        .background(MaterialTheme.colors.surface)
-        .padding(8.dp)) {
+    Column(
+        modifier = Modifier
+            .background(MaterialTheme.colors.surface)
+            .padding(8.dp)
+    ) {
         SocialRow()
         Text(
             text = "About Me",
