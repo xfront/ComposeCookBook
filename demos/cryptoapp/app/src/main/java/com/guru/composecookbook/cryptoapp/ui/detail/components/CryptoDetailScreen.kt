@@ -8,7 +8,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.Card
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
@@ -19,12 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.accompanist.coil.rememberCoilPainter
+import coil.compose.rememberImagePainter
 import com.guru.composecookbook.charts.BarCharts
 import com.guru.composecookbook.charts.LineChart
+import com.guru.composecookbook.cryptoapp.R
 import com.guru.composecookbook.cryptoapp.data.db.models.Crypto
 import com.guru.composecookbook.cryptoapp.ui.detail.CryptoDetailViewModel
 import com.guru.composecookbook.cryptoapp.ui.detail.CryptoDetailViewModelFactory
@@ -34,16 +38,20 @@ import com.guru.composecookbook.theme.*
 import com.guru.composecookbook.theme.modifiers.horizontalGradientBackground
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CryptoDetailScreen(crypto: Crypto, onBack: () -> Unit) {
     val surfaceGradient = Colors.cryptoSurfaceGradient(isSystemInDarkTheme())
     Scaffold(
         bottomBar = { CryptoBottomBar(onBack) },
         floatingActionButton = { CryptoFloatingActionButton() },
-        isFloatingActionButtonDocked = true,
         floatingActionButtonPosition = FabPosition.Center
-    ) {
-        Box(modifier = Modifier.horizontalGradientBackground(surfaceGradient)) {
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .padding(paddingValues)
+                .horizontalGradientBackground(surfaceGradient)
+        ) {
             val scrollState = rememberScrollState(0)
             CryptoTopSection(crypto, scrollState)
             Column(
@@ -82,7 +90,7 @@ fun CryptoTopSection(crypto: Crypto, scrollState: ScrollState) {
                 modifier = Modifier.padding(end = 8.dp)
             )
             Image(
-                painter = rememberCoilPainter(request = crypto.image),
+                painter = rememberImagePainter(data = crypto.image),
                 modifier = Modifier.size(28.dp),
                 contentDescription = null
             )
@@ -94,7 +102,7 @@ fun CryptoTopSection(crypto: Crypto, scrollState: ScrollState) {
         )
         Text(
             text = "${crypto.dailyChange.roundToTwoDecimals()} " +
-                " (${crypto.dailyChangePercentage.roundToTwoDecimals()}%) Today",
+                    " (${crypto.dailyChangePercentage.roundToTwoDecimals()}%) Today",
             color = if (crypto.dailyChange > 0) green700 else Color.Red
         )
     }
@@ -134,7 +142,10 @@ fun CryptoBottomBar(onBack: () -> Unit) {
         cutoutShape = CircleShape
     ) {
         IconButton(onClick = onBack) {
-            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = stringResource(id = R.string.cd_back)
+            )
         }
         IconButton(onClick = {}) {
             Icon(imageVector = Icons.Default.MoreVert, contentDescription = "")
@@ -149,7 +160,7 @@ fun CryptoFloatingActionButton() {
         icon = { Icon(imageVector = Icons.Default.Add, contentDescription = "") },
         text = { Text(text = "Trade") },
         onClick = { pressed = !pressed },
-        backgroundColor = MaterialTheme.colors.primary,
+        containerColor = MaterialTheme.colorScheme.primary,
         modifier = Modifier.width(animateDpAsState(if (pressed) 200.dp else 120.dp).value)
     )
 }

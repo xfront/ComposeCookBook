@@ -10,13 +10,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.guru.composecookbook.cryptoapp.data.DemoDIGraph
 import com.guru.composecookbook.cryptoapp.data.db.models.Crypto
-import com.guru.composecookbook.cryptoapp.data.repositories.CryptoRepository
 import com.guru.composecookbook.cryptoapp.data.paging.PageNumSource
+import com.guru.composecookbook.cryptoapp.data.repositories.CryptoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CryptoHomeViewModelFactory(val context: Context): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+class CryptoHomeViewModelFactory(val context: Context) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return CryptoHomeViewModel(context) as T
     }
 }
@@ -47,5 +47,9 @@ class CryptoHomeViewModel(context: Context) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             cryptoRepository.removeFavorite(crypto = crypto)
         }
+    }
+
+    fun getCryptoFromSymbol(symbol: String) {
+
     }
 }

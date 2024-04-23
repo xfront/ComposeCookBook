@@ -1,32 +1,40 @@
 package com.guru.composecookbook.ui.home.dialogs
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.guru.composecookbook.R
 import com.guru.composecookbook.data.DemoDataProvider
+import com.guru.composecookbook.theme.ComposeCookBookMaterial3Theme
 import com.guru.composecookbook.theme.ComposeCookBookTheme
 import com.guru.composecookbook.theme.typography
 import com.guru.composecookbook.ui.home.dynamic.DynamicUIActivity
 
 
-class DialogsActivity : ComponentActivity() {
+class DialogsActivity : AppCompatActivity() {
 
     private val isDarkTheme: Boolean by lazy {
         intent?.getBooleanExtra(DynamicUIActivity.DARK_THEME, false) ?: false
@@ -35,7 +43,7 @@ class DialogsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComposeCookBookTheme(isDarkTheme) {
+            ComposeCookBookMaterial3Theme(isDarkTheme) {
                 DialogScreen(onBack = { onBackPressed() })
             }
         }
@@ -50,16 +58,20 @@ class DialogsActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DialogScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
-            TopAppBar(
+            SmallTopAppBar(
                 title = { Text(text = "Dialogs") },
-                elevation = 8.dp,
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = stringResource(id = R.string.cd_back)
+                        )
                     }
                 }
 
@@ -136,6 +148,25 @@ fun DialogsOptionList() {
         ) {
             Text(text = "Extra Rounded Dialog")
         }
+
+        Button(
+            onClick = { dialogState = DialogState(true, DialogType.DATEPICKER) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(text = "Date Picker Dialog")
+        }
+
+        Button(
+            onClick = { dialogState = DialogState(true, DialogType.TIMEPICKER) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            Text(text = "Time Picker Dialog")
+        }
+
     }
 }
 
@@ -149,7 +180,7 @@ fun ShowDialog(type: DialogType, onDismiss: () -> Unit) {
                 text = {
                     Text(item.subtitle)
                 },
-                buttons = {
+                confirmButton = {
                     TextButton(
                         onClick = onDismiss,
                         modifier = Modifier.padding(8.dp)
@@ -165,7 +196,7 @@ fun ShowDialog(type: DialogType, onDismiss: () -> Unit) {
                 text = {
                     Text(item.subtitle)
                 },
-                buttons = {
+                confirmButton = {
                     Row(modifier = Modifier) {
                         TextButton(
                             onClick = onDismiss,
@@ -189,7 +220,7 @@ fun ShowDialog(type: DialogType, onDismiss: () -> Unit) {
                 text = {
                     Text(item.subtitle)
                 },
-                buttons = {
+                confirmButton = {
                     OutlinedButton(
                         onClick = onDismiss,
                         modifier = Modifier
@@ -219,7 +250,7 @@ fun ShowDialog(type: DialogType, onDismiss: () -> Unit) {
                         contentDescription = null
                     )
                 },
-                buttons = {
+                confirmButton = {
                     TextButton(
                         onClick = onDismiss,
                         modifier = Modifier.padding(8.dp)
@@ -233,17 +264,19 @@ fun ShowDialog(type: DialogType, onDismiss: () -> Unit) {
             AlertDialog(
                 title = { Text(text = item.title, style = typography.h6) },
                 text = {
-                    Text(item.subtitle, modifier = Modifier.padding(bottom = 8.dp))
-                    Image(
-                        painter = painterResource(DemoDataProvider.item.imageId),
-                        contentDescription = null
-                    )
-                    Text(
-                        item.subtitle + item.title + item.subtitle + item.title,
-                        style = typography.subtitle2
-                    )
+                    Column {
+                        Text(item.subtitle, modifier = Modifier.padding(bottom = 8.dp))
+                        Image(
+                            painter = painterResource(DemoDataProvider.item.imageId),
+                            contentDescription = null
+                        )
+                        Text(
+                            item.subtitle + item.title + item.subtitle + item.title,
+                            style = typography.subtitle2
+                        )
+                    }
                 },
-                buttons = {
+                confirmButton = {
                     TextButton(
                         onClick = onDismiss,
                         modifier = Modifier.padding(8.dp)
@@ -257,14 +290,16 @@ fun ShowDialog(type: DialogType, onDismiss: () -> Unit) {
             AlertDialog(
                 title = { Text(text = item.title, style = typography.h6) },
                 text = {
-                    Text(item.subtitle, modifier = Modifier.padding(bottom = 8.dp))
-                    Image(
-                        painter = painterResource(DemoDataProvider.item.imageId),
-                        contentDescription = null,
-                        modifier = Modifier.clip(RoundedCornerShape(16.dp))
-                    )
+                    Column {
+                        Text(item.subtitle, modifier = Modifier.padding(bottom = 8.dp))
+                        Image(
+                            painter = painterResource(DemoDataProvider.item.imageId),
+                            contentDescription = null,
+                            modifier = Modifier.clip(RoundedCornerShape(16.dp))
+                        )
+                    }
                 },
-                buttons = {
+                confirmButton = {
                     TextButton(
                         onClick = onDismiss,
                         modifier = Modifier.padding(8.dp)
@@ -275,6 +310,37 @@ fun ShowDialog(type: DialogType, onDismiss: () -> Unit) {
                 onDismissRequest = onDismiss,
                 shape = RoundedCornerShape(16.dp)
             )
+        DialogType.DATEPICKER -> {
+            val context = LocalContext.current
+            (context as? FragmentActivity)?.supportFragmentManager?.let { manager ->
+
+                val builder = MaterialDatePicker.Builder.datePicker()
+                    .build()
+
+                builder.addOnPositiveButtonClickListener { selectedDate ->
+
+                }
+                builder.addOnDismissListener {
+                    onDismiss()
+                }
+                builder.show(manager, "DatePicker")
+            }
+        }
+
+        DialogType.TIMEPICKER -> {
+            val context = LocalContext.current
+            (context as? FragmentActivity)?.supportFragmentManager?.let { manager ->
+                val builder = MaterialTimePicker.Builder()
+                    .build()
+                builder.addOnPositiveButtonClickListener {
+
+                }
+                builder.addOnDismissListener {
+                    onDismiss.invoke()
+                }
+                builder.show(manager, "TimePicker")
+            }
+        }
 
     }
 

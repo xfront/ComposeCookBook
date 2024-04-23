@@ -111,20 +111,21 @@ private val LightOrangeColorPalette = lightColors(
 )
 
 enum class ColorPallet {
-    PURPLE, GREEN, ORANGE, BLUE
+    PURPLE, GREEN, ORANGE, BLUE, WALLPAPER
 }
 
 @Composable
 fun ComposeCookBookTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     colorPallet: ColorPallet = GREEN,
-    content: @Composable() () -> Unit,
+    content: @Composable () -> Unit,
 ) {
     val colors = when (colorPallet) {
         GREEN -> if (darkTheme) DarkGreenColorPalette else LightGreenColorPalette
         PURPLE -> if (darkTheme) DarkPurpleColorPalette else LightPurpleColorPalette
         ORANGE -> if (darkTheme) DarkOrangeColorPalette else LightOrangeColorPalette
         BLUE -> if (darkTheme) DarkBlueColorPalette else LightBlueColorPalette
+        else ->  if (darkTheme) DarkBlueColorPalette else LightBlueColorPalette
     }
 
     MaterialTheme(

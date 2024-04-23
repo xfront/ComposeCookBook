@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
-import com.guru.composecookbook.cryptoapp.data.repositories.CryptoRepository
 import com.guru.composecookbook.cryptoapp.data.DemoDIGraph
+import com.guru.composecookbook.cryptoapp.data.repositories.CryptoRepository
 import kotlinx.coroutines.Dispatchers
 
-class CryptoDetailViewModelFactory(val context: Context): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+class CryptoDetailViewModelFactory(val context: Context) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return CryptoDetailViewModel(context) as T
     }
 }

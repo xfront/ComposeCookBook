@@ -6,13 +6,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import com.guru.composecookbook.theme.ComposeCookBookTheme
 
 class PaintActivity : ComponentActivity() {
-    @ExperimentalAnimationApi
+
+    @OptIn(ExperimentalComposeUiApi::class,
+        androidx.compose.foundation.ExperimentalFoundationApi::class,
+        androidx.compose.animation.ExperimentalAnimationApi::class
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
@@ -28,7 +34,9 @@ class PaintActivity : ComponentActivity() {
     }
 }
 
-@ExperimentalAnimationApi
+@OptIn(ExperimentalComposeUiApi::class,
+ExperimentalFoundationApi::class,
+ExperimentalAnimationApi::class)
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview4() {

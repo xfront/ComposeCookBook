@@ -1,16 +1,17 @@
 package com.guru.composecookbook.spotify.ui.home.components
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -18,18 +19,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.guru.composecookbook.spotify.R
-import com.guru.composecookbook.theme.graySurface
-import com.guru.composecookbook.theme.typography
+import com.guru.composecookbook.data.AlbumsDataProvider
 import com.guru.composecookbook.spotify.data.SpotifyDataProvider
-import com.guru.composecookbook.verticalgrid.VerticalGrid
 import com.guru.composecookbook.theme.modifiers.horizontalGradientBackground
+import com.guru.composecookbook.theme.typography
+import com.guru.composecookbook.verticalgrid.VerticalGrid
 
 @Composable
 fun SpotifyHome() {
@@ -71,13 +70,15 @@ fun SpotifyTitle(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         style = typography.h5.copy(fontWeight = FontWeight.ExtraBold),
-        modifier = modifier.padding(start = 8.dp, end = 4.dp, bottom = 8.dp, top = 24.dp)
+        modifier = modifier
+            .padding(start = 8.dp, end = 4.dp, bottom = 8.dp, top = 24.dp)
+            .semantics { heading() }
     )
 }
 
 @Composable
 fun HomeGridSection() {
-    val items = remember { SpotifyDataProvider.albums }
+    val items = remember { AlbumsDataProvider.albums }
     VerticalGrid {
         items.take(6).forEach {
             SpotifyHomeGridItem(album = it)
@@ -87,7 +88,7 @@ fun HomeGridSection() {
 
 @Composable
 fun HomeLanesSection() {
-    val categories = remember { SpotifyDataProvider.listOfSpotifyHomeLanes }
+    val categories = remember { AlbumsDataProvider.listOfSpotifyHomeLanes }
     categories.forEachIndexed { index, lane ->
         SpotifyTitle(text = lane)
         SpotifyLane(index)
@@ -96,8 +97,8 @@ fun HomeLanesSection() {
 
 @Composable
 fun SpotifyLane(index: Int) {
-    val itemsEven = remember { SpotifyDataProvider.albums }
-    val itemsOdd = remember { SpotifyDataProvider.albums.asReversed() }
+    val itemsEven = remember { AlbumsDataProvider.albums }
+    val itemsOdd = remember { AlbumsDataProvider.albums.asReversed() }
     LazyRow {
         items(if (index % 2 == 0) itemsEven else itemsOdd) {
             SpotifyLaneItem(album = it)

@@ -5,17 +5,27 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.guru.composecookbook.theme.ComposeCookBookTheme
-import com.guru.composecookbook.ui.home.androidviews.AndroidViews
+import com.guru.composecookbook.R
 import com.guru.composecookbook.carousel.CarouselLayout
+import com.guru.composecookbook.theme.ComposeCookBookMaterial3Theme
+import com.guru.composecookbook.ui.home.androidviews.AndroidViews
 import com.guru.composecookbook.ui.home.constraintlayout.ConstraintLayoutDemos
 import com.guru.composecookbook.ui.home.dialogs.BottomSheetLayouts
+import com.guru.composecookbook.ui.home.motionlayout.MotionLayoutDemo
 import com.guru.composecookbook.ui.home.pullrefreshdemos.PullRefreshList
 import com.guru.composecookbook.ui.home.tabslayout.TabLayout
 import com.guru.composecookbook.ui.learnwidgets.Layouts
@@ -31,11 +41,10 @@ class DynamicUIActivity : ComponentActivity() {
         intent?.getBooleanExtra(DARK_THEME, false) ?: false
     }
 
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComposeCookBookTheme(isDarkTheme) {
+            ComposeCookBookMaterial3Theme(isDarkTheme) {
                 DynamicUiWrapper(dynamicUiType) {
                     onBackPressed()
                 }
@@ -55,55 +64,72 @@ class DynamicUIActivity : ComponentActivity() {
 }
 
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DynamicUiWrapper(uiType: String, onback: () -> Unit) {
     Scaffold(
         topBar = {
-            TopAppBar(
+            SmallTopAppBar(
                 title = { Text(text = uiType) },
-                elevation = if (uiType == DynamicUiType.TABS.name) 0.dp else 8.dp,
                 navigationIcon = {
                     IconButton(onClick = onback) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.cd_back)
+                        )
                     }
                 }
             )
         },
-        content = {
-            // We setup a base activity and we will change content depending upon ui type so
-            // we don't have to create Activity for every feature showcase
-            when (uiType) {
-                DynamicUiType.TABS.name -> {
-                    TabLayout()
-                }
-                DynamicUiType.BOTTOMSHEET.name -> {
-                    BottomSheetLayouts()
-                }
-                DynamicUiType.LAYOUTS.name -> {
-                    Layouts()
-                }
-                DynamicUiType.CONSTRAINTLAYOUT.name -> {
-                    ConstraintLayoutDemos()
-                }
-                DynamicUiType.CAROUSELL.name -> {
-                    CarouselLayout()
-                }
-                DynamicUiType.MODIFIERS.name -> {
-                    HowToModifiers()
-                }
-                DynamicUiType.ANDROIDVIEWS.name -> {
-                    AndroidViews()
-                }
-                DynamicUiType.PULLRERESH.name -> {
-                    PullRefreshList(onPullRefresh = {})
-                }
-            }
+        content = { paddingValues ->
+            DynamicUiScreen(
+                uiType = uiType,
+                modifier = Modifier.padding(paddingValues),
+            )
         }
     )
 }
 
-@ExperimentalMaterialApi
+@Composable
+fun DynamicUiScreen(
+    uiType: String,
+    modifier: Modifier = Modifier,
+) {
+    // We setup a base activity and we will change content depending upon ui type so
+    // we don't have to create Activity for every feature showcase
+    Box(modifier = modifier) {
+        when (uiType) {
+            DynamicUiType.TABS.name -> {
+                TabLayout()
+            }
+            DynamicUiType.BOTTOMSHEET.name -> {
+                BottomSheetLayouts()
+            }
+            DynamicUiType.LAYOUTS.name -> {
+                Layouts()
+            }
+            DynamicUiType.CONSTRAINTLAYOUT.name -> {
+                ConstraintLayoutDemos()
+            }
+            DynamicUiType.CAROUSELL.name -> {
+                CarouselLayout()
+            }
+            DynamicUiType.MODIFIERS.name -> {
+                HowToModifiers()
+            }
+            DynamicUiType.ANDROIDVIEWS.name -> {
+                AndroidViews()
+            }
+            DynamicUiType.PULLRERESH.name -> {
+                PullRefreshList(onPullRefresh = {})
+            }
+            DynamicUiType.MOTIONLAYOUT.name -> {
+                MotionLayoutDemo()
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 fun PreviewDynamicUI() {

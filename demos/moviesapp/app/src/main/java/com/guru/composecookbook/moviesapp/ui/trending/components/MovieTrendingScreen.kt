@@ -2,9 +2,7 @@ package com.guru.composecookbook.moviesapp.ui.trending.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
@@ -13,7 +11,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.guru.composecookbook.moviesapp.ui.home.MoviesHomeInteractionEvents
 import com.guru.composecookbook.moviesapp.ui.internal.theme.Colors
@@ -24,7 +21,6 @@ import com.guru.composecookbook.theme.modifiers.horizontalGradientBackground
 @Composable
 fun MovieTrendingScreen(moviesHomeInteractionEvents: (MoviesHomeInteractionEvents) -> Unit) {
     val surfaceGradient = Colors.moviesSurfaceGradient(isSystemInDarkTheme())
-    val statusBarHeight = 32.dp
     val viewModel: TrendingViewModel = viewModel(
         factory = TrendingViewModelFactory(LocalContext.current)
     )
@@ -42,8 +38,6 @@ fun MovieTrendingScreen(moviesHomeInteractionEvents: (MoviesHomeInteractionEvent
             .horizontalGradientBackground(surfaceGradient)
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(statusBarHeight))
-
         if (showLoading.value) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
         }
@@ -51,8 +45,6 @@ fun MovieTrendingScreen(moviesHomeInteractionEvents: (MoviesHomeInteractionEvent
         listOfSections.forEach {
             DynamicSection(it, viewModel, showLoading, moviesHomeInteractionEvents)
         }
-
-        Spacer(modifier = Modifier.height(100.dp))
     }
 }
 

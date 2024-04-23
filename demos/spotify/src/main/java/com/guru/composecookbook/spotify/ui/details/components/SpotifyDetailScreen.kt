@@ -21,15 +21,18 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.guru.composecookbook.data.AlbumsDataProvider
+import com.guru.composecookbook.data.model.Album
 import com.guru.composecookbook.spotify.data.SpotifyDataProvider
-import com.guru.composecookbook.spotify.data.models.Album
 import com.guru.composecookbook.theme.ComposeCookBookTheme
 import com.guru.composecookbook.theme.extensions.generateDominantColorState
 import com.guru.composecookbook.theme.modifiers.horizontalGradientBackground
 import com.guru.composecookbook.theme.modifiers.verticalGradientBackground
+import com.guru.composecookbook.spotify.R
 
 @Composable
 fun SpotifyDetailScreen(album: Album) {
@@ -69,7 +72,7 @@ fun AnimatedToolBar(album: Album, scrollState: ScrollState, surfaceGradient: Lis
     ) {
         Icon(
             imageVector = Icons.Default.ArrowBack, tint = MaterialTheme.colors.onSurface,
-            contentDescription = null
+            contentDescription = stringResource(id = R.string.cd_back)
         )
         Text(
             text = album.song,
@@ -99,7 +102,7 @@ fun BottomScrollableContent(scrollState: ScrollState, surfaceGradient: List<Colo
 @Preview
 @Composable
 fun PreviewDetailScreen() {
-    val album = SpotifyDataProvider.album
+    val album = AlbumsDataProvider.album
     ComposeCookBookTheme(true) {
         SpotifyDetailScreen(album = album)
     }

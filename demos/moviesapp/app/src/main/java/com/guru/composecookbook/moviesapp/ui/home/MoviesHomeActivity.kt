@@ -8,6 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.LibraryAdd
@@ -17,8 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.annotation.ExperimentalCoilApi
 import com.guru.composecookbook.moviesapp.data.db.models.Movie
 import com.guru.composecookbook.moviesapp.ui.details.MovieDetailActivity
 import com.guru.composecookbook.moviesapp.ui.home.components.MovieHomeScreen
@@ -35,6 +38,7 @@ sealed class MoviesHomeInteractionEvents {
     data class RemoveFromMyWatchlist(val movie: Movie) : MoviesHomeInteractionEvents()
 }
 
+@ExperimentalCoilApi
 class MoviesHomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,33 +52,34 @@ class MoviesHomeActivity : ComponentActivity() {
                 Scaffold(
                     bottomBar = { MoviesBottomBar(navType) }
                 ) {
-                    Crossfade(targetState = navType) { navTypeState ->
+                    Crossfade(
+                        targetState = navType,
+                        modifier = Modifier.padding(it),
+                    ) { navTypeState ->
                         when (navTypeState.value) {
                             MovieNavType.SHOWING -> MovieHomeScreen(
-                                moviesHomeInteractionEvents = {
-                                    handleInteractionEvents(it, viewModel)
+                                moviesHomeInteractionEvents = { event ->
+                                    handleInteractionEvents(event, viewModel)
                                 }
                             )
                             MovieNavType.TRENDING -> MovieTrendingScreen(
-                                moviesHomeInteractionEvents = {
-                                    handleInteractionEvents(it, viewModel)
+                                moviesHomeInteractionEvents = { event ->
+                                    handleInteractionEvents(event, viewModel)
                                 }
                             )
                             MovieNavType.WATCHLIST -> WatchlistScreen(
-                                moviesHomeInteractionEvents = {
-                                    handleInteractionEvents(it, viewModel)
+                                moviesHomeInteractionEvents = { event ->
+                                    handleInteractionEvents(event, viewModel)
                                 }
                             )
                         }
                     }
                 }
-
-
             }
         }
     }
 
-    fun handleInteractionEvents(
+    private fun handleInteractionEvents(
         interactionEvents: MoviesHomeInteractionEvents,
         viewModel: MoviesHomeViewModel
     ) {
@@ -97,7 +102,7 @@ class MoviesHomeActivity : ComponentActivity() {
     }
 
     companion object {
-        const val DARK_THEME = "darkTheme"
+        private const val DARK_THEME = "darkTheme"
         fun newIntent(context: Context, isDarkTheme: Boolean) =
             Intent(context, MoviesHomeActivity::class.java).apply {
                 putExtra(DARK_THEME, isDarkTheme)

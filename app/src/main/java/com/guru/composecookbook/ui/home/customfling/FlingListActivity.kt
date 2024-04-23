@@ -1,5 +1,6 @@
 package com.guru.composecookbook.ui.home.customfling
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,7 +12,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -19,11 +20,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
+import com.guru.composecookbook.R
 import com.guru.composecookbook.data.DemoDataProvider
 import com.guru.composecookbook.data.model.Item
+import com.guru.composecookbook.theme.ComposeCookBookMaterial3Theme
 import com.guru.composecookbook.theme.ComposeCookBookTheme
 import com.guru.composecookbook.ui.utils.TestTags
 
@@ -123,16 +127,18 @@ class FlingListActivity : ComponentActivity() {
 
 @Composable
 private fun BaseView(isDarkTheme: Boolean, content: @Composable () -> Unit) {
-    ComposeCookBookTheme(isDarkTheme) {
+    ComposeCookBookMaterial3Theme(isDarkTheme) {
         content()
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListViewContent(
     list: List<Item>,
     flingStateStore: State<FlingStateStore>,
-    onback: () -> Unit,
+    onBack: () -> Unit,
     onSettingsClick: () -> Unit
 ) {
     /*
@@ -140,7 +146,7 @@ fun ListViewContent(
      */
     Scaffold(
         topBar = {
-            TopAppBar(
+            SmallTopAppBar(
                 title = {
                     Column(modifier = Modifier.padding(4.dp)) {
                         /*
@@ -153,18 +159,24 @@ fun ListViewContent(
                         )
                     }
                 },
-                elevation = 8.dp,
                 navigationIcon = {
-                    IconButton(onClick = onback) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                    IconButton(onClick = onBack) {
+                        Icon(
+                            Icons.Filled.ArrowBack,
+                            contentDescription = stringResource(id = R.string.cd_back)
+                        )
+
                     }
                 }
             )
         },
-        content = {
-            VerticalFlingerListView(list, flingStateStore) {
-                onSettingsClick()
-            }
+        content = { paddingValues ->
+            VerticalFlingerListView(
+                list = list,
+                flingStateStore = flingStateStore,
+                onSettingsClick = onSettingsClick,
+                modifier = Modifier.padding(paddingValues),
+            )
         }
     )
 }
@@ -178,6 +190,6 @@ fun DefaultPreview2() {
 
         ListViewContent(
             DemoDataProvider.itemList, state,
-            onback = {}) {}
+            onBack = {}) {}
     }
 }

@@ -17,10 +17,6 @@
         <activity
             android:name=".ui.templates.TemplatesActivity"
             android:label="@string/title_activity_templates"
-            android:theme="@style/Theme.ComposeCookBook.NoActionBar"></activity>
-        <activity
-            android:name=".ui.demoapps.tiktok.TiktokActivity"
-            android:label="@string/title_activity_tiktok"
             android:theme="@style/Theme.ComposeCookBook.NoActionBar" />
         <activity
             android:name=".ui.home.advancelists.AdvanceListsActivity"
@@ -35,10 +31,6 @@
             android:name=".ui.home.customfling.FlingListSettingsActivity"
             android:label="@string/title_activity_custom_fling_settings"
             android:theme="@style/Theme.ComposeCookBook.NoActionBar" />
-        <activity
-            android:name="com.guru.composecookbook.ui.demoapps.datingapp.DatingHomeActivity"
-            android:label="@string/title_activity_dating_home_activitu"
-            android:theme="@style/Theme.ComposeCookBook.NoActionBar" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -46,10 +38,12 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ComposeCookBook.NoActionBar">
+            android:theme="@style/Theme.ComposeCookBook.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

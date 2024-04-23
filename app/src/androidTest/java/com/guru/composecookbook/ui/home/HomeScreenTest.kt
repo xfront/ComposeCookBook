@@ -1,12 +1,17 @@
 package com.guru.composecookbook.ui.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.activity.compose.setContent
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assertAll
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onNodeWithTag
 import com.guru.composecookbook.MainActivity
 import com.guru.composecookbook.MainAppContent
 import com.guru.composecookbook.data.DemoDataProvider
@@ -22,12 +27,13 @@ class HomeScreenTest {
     @get: Rule
     val composeAndroidTestRule = createAndroidComposeRule<MainActivity>()
 
-    @ExperimentalFoundationApi
-    @ExperimentalMaterialApi
     @Before
     fun setUp() {
-        composeAndroidTestRule.setContent {
-            MainAppContent(appThemeState = mutableStateOf(AppThemeState()))
+        composeAndroidTestRule.activity.setContent {
+            val appThemeState = remember {
+                mutableStateOf(AppThemeState())
+            }
+            MainAppContent(appThemeState = appThemeState)
         }
     }
 

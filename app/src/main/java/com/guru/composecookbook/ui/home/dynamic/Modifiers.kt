@@ -9,11 +9,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -28,6 +29,7 @@ import com.guru.composecookbook.theme.green500
 import com.guru.composecookbook.theme.teal200
 import com.guru.composecookbook.theme.typography
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HowToModifiers() {
     Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
@@ -76,8 +78,8 @@ fun HowToModifiers() {
         DemoElementButton(modifier = Modifier.alpha(0.5f))
         DemoText("Modifier.drawShadow(12.dp)")
         DemoElementButton(modifier = Modifier.shadow(12.dp))
-        DemoText("Modifier.background(MaterialTheme.colors.secondary))")
-        DemoElementButton(modifier = Modifier.background(MaterialTheme.colors.secondary))
+        DemoText("Modifier.background(MaterialTheme.colorScheme.secondary))")
+        DemoElementButton(modifier = Modifier.background(MaterialTheme.colorScheme.secondary))
         DemoText("Modifier.padding(8.dp).background(brush = HorizontalGradient)")
         DemoElementText(
             modifier = Modifier
@@ -170,6 +172,7 @@ fun DemoText(text: String) {
     )
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Preview
 @Composable
 fun PreviewHowToModifiers() {

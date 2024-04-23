@@ -1,11 +1,26 @@
 package com.guru.composecookbook.charts
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -16,6 +31,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 import com.guru.composecookbook.theme.*
+import kotlinx.coroutines.delay
 import kotlin.math.min
 import kotlin.random.Random
 
@@ -31,23 +47,40 @@ fun createRandomFloatList(): List<Float> {
     return list
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Charts() {
-    Scaffold {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            item { Spacer(modifier = Modifier.height(30.dp)) }
-            item { Text(text = "Compose charts", style = MaterialTheme.typography.h6) }
+    Scaffold { paddingValues ->
+        LazyColumn(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
+            item { Spacer(modifier = Modifier.height(40.dp)) }
+            item { Text(text = "Compose charts", style = MaterialTheme.typography.headlineMedium) }
             item { Spacer(modifier = Modifier.height(10.dp)) }
 
             item {
                 Card(modifier = Modifier.padding(16.dp), elevation = 16.dp) {
+                    val mutableChartData = remember {
+                        mutableStateListOf<Float>().apply { addAll(createRandomFloatList()) }
+                    }
+                    LaunchedEffect(Unit) {
+                        while (mutableChartData.size < 100) {
+                            delay(2000)
+                            mutableChartData.add(Random.nextFloat() * 5)
+                        }
+                    }
                     LineChart(
-                        yAxisValues = createRandomFloatList(),
+                        yAxisValues = mutableChartData,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(200.dp),
-                        lineColors = gradientBluePurple
-                    )
+                        lineColors = gradientBluePurple,
+                        shouldDrawLiveDot = true,
+                        customXTarget = 100,
+
+                        )
                 }
             }
             item { Spacer(modifier = Modifier.height(10.dp)) }
@@ -127,16 +160,21 @@ fun Charts() {
 @Composable
 fun LineChart(
     modifier: Modifier = Modifier,
-    lineColors: List<Color> = listOf(MaterialTheme.colors.primary, MaterialTheme.colors.primary),
+    lineColors: List<Color> = listOf(
+        androidx.compose.material.MaterialTheme.colors.primary,
+        androidx.compose.material.MaterialTheme.colors.primary
+    ),
     lineWidth: Float = 4f,
     yAxisValues: List<Float>,
     shouldAnimate: Boolean = true,
+    shouldDrawLiveDot: Boolean = false,
+    animationKey: Any? = Unit,
+    customXTarget: Int = 0,
 ) {
-    val yValues = remember { yAxisValues }
+    val yValues = yAxisValues
     val x = remember { Animatable(0f) }
-    val xTarget = (yValues.size - 1).toFloat()
-
-    LaunchedEffect(Unit) {
+    val xTarget = if (customXTarget > 0) customXTarget.toFloat() else (yValues.size - 1).toFloat()
+    LaunchedEffect(animationKey) {
         x.animateTo(
             targetValue = xTarget,
             animationSpec = tween(
@@ -145,23 +183,43 @@ fun LineChart(
             ),
         )
     }
+    val infiniteTransition = rememberInfiniteTransition()
+    val radius by infiniteTransition.animateFloat(
+        initialValue = 7f,
+        targetValue = 15f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(500, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+    val opacity by infiniteTransition.animateFloat(
+        initialValue = 0.7f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(500, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+
 
     Canvas(modifier = modifier.padding(8.dp)) {
         val path = Path()
-        val xbounds = Pair(0f, xTarget)
-        val ybounds = getBounds(yValues)
-        val scaleX = size.width / (xbounds.second - xbounds.first)
-        val scaleY = size.height / (ybounds.second - ybounds.first)
-        val yMove = ybounds.first * scaleY
-
-        (0..min(yValues.size - 1, x.value.toInt())).forEach { value ->
-            val x = value * scaleX
-            val y = size.height - (yValues[value] * scaleY) + yMove
+        val xBounds = Pair(0f, xTarget)
+        val yBounds = getBounds(yValues)
+        val scaleX = size.width / (xBounds.second - xBounds.first)
+        val scaleY = size.height / (yBounds.second - yBounds.first)
+        val yMove = yBounds.first * scaleY
+        val interval = (0..min(yValues.size - 1, x.value.toInt()))
+        val last = interval.last()
+        interval.forEach { value ->
+            val xPoint = value * scaleX
+            val yPoint = size.height - (yValues[value] * scaleY) + yMove
             if (value == 0) {
-                path.moveTo(0f, y)
+                path.moveTo(0f, yPoint)
                 return@forEach
             }
-            path.lineTo(x, y)
+            path.lineTo(xPoint, yPoint)
         }
 
         drawPath(
@@ -169,13 +227,26 @@ fun LineChart(
             brush = Brush.linearGradient(lineColors),
             style = Stroke(width = lineWidth)
         )
+        if (shouldDrawLiveDot) {
+            drawCircle(
+                lineColors.first(), radius, Offset(
+                    last * scaleX, size.height - (yValues[last] *
+                            scaleY)
+                            + yMove
+                ), opacity
+            )
+        }
     }
 }
+
 
 @Composable
 fun BarCharts(
     modifier: Modifier = Modifier,
-    barColors: List<Color> = listOf(MaterialTheme.colors.primary, MaterialTheme.colors.primary),
+    barColors: List<Color> = listOf(
+        MaterialTheme.colorScheme.primary,
+        MaterialTheme.colorScheme.primary
+    ),
     barWidth: Float = 20f,
     yAxisValues: List<Float>,
     shouldAnimate: Boolean = true
@@ -194,16 +265,21 @@ fun BarCharts(
     }
 
     Canvas(modifier = modifier.padding(horizontal = 8.dp)) {
-        val xbounds = Pair(0f, xTarget)
-        val ybounds = getBounds(yValues)
-        val scaleX = size.width / (xbounds.second - xbounds.first)
-        val scaleY = size.height / (ybounds.second - ybounds.first)
-        val yMove = ybounds.first * scaleY
+        val xBounds = Pair(0f, xTarget)
+        val yBounds = getBounds(yValues)
+        val scaleX = size.width / (xBounds.second - xBounds.first)
+        val scaleY = size.height / (yBounds.second - yBounds.first)
+        val yMove = yBounds.first * scaleY
 
         (0..min(yValues.size - 1, x.value.toInt())).forEach { value ->
-            val x = value * scaleX
-            val y = size.height - (yValues[value] * scaleY) + yMove
-            drawBar(topLeft = Offset(x, y), width = barWidth, height = size.height - y, barColors)
+            val xOffset = value * scaleX
+            val yOffset = size.height - (yValues[value] * scaleY) + yMove
+            drawBar(
+                topLeft = Offset(xOffset, yOffset),
+                width = barWidth,
+                height = size.height - yOffset,
+                barColors
+            )
         }
     }
 }

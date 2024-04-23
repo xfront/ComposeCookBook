@@ -1,5 +1,4 @@
 import com.guru.composecookbook.build.configurations.ProjectConfigs
-import org.gradle.api.JavaVersion
 
 plugins {
     id("com.android.library")
@@ -27,5 +26,8 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion = ProjectConfigs.kotlinCompilerExtensionVersion
+    }
+    dexOptions {
+        javaMaxHeapSize = "4G"
     }
 }

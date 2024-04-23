@@ -1,11 +1,12 @@
 package com.guru.composecookbook.ui.templates
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -13,6 +14,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.guru.composecookbook.ui.utils.TestTags
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TemplateScreen(darkTheme: Boolean) {
     val context = LocalContext.current
@@ -45,9 +47,13 @@ val templates = listOf(
     "On-boarding",
     "Charts",
     "Adding Payment Card",
+    "Pin Lock/BioMetric",
     "Empty Screens",
     "Settings",
     "Loaders",
     "Canvas Drawing",
-    "Animations"
+    "Animations",
+    "Timer",
+    "Clock View",
+    "Cascade Menu",
 )

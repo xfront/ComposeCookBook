@@ -6,6 +6,7 @@
 <div align="center">
   A Collection of all Jetpack compose UI elements, Layouts, Widgets and Demo screens to see it's potential.
 </div>
+<br />
 <div align="center">
  <img src = "https://github.com/Gurupreet/ComposeCookBook/blob/master/screens/composelogo.png" width = "300px"/>
 </div>
@@ -13,8 +14,12 @@
 <br />
 
 <div align="center">
+
+<a href="https://github.com/Gurupreet/ComposeCookBook/releases/download/latest-master/app-debug.apk" >
+      <img src = "https://img.shields.io/badge/Master-Master?color=7885FF&label=Sample%20App&logo=android&style=for-the-badge" />
+    </a>
     <a href = "https://developer.android.com/jetpack/androidx/versions/all-channel#december_16_2020">
-      <img src = "https://img.shields.io/badge/Jetpack%20Compose-1.0.0%20beta07-brightgreen" />
+      <img src = "https://img.shields.io/badge/Jetpack%20Compose-1.0.1-brightgreen" />
     </a>
   <a href = "https://github.com/Gurupreet/ComposeCookBook/actions/workflows/android.yml">
       <img src = "https://github.com/Gurupreet/ComposeCookBook/actions/workflows/android.yml/badge.svg" />
@@ -49,24 +54,23 @@ List & Layouts             |  Widgets and building blocks| Animations | Theme
 :-------------------------:|:-------------------------: | :-------------------------: | :-------------------------:
 ![](https://media.giphy.com/media/WOlo2cTDdjGkgdAJQK/giphy.gif)  |  ![](https://media.giphy.com/media/RkEyxCn43aX1MoIdcx/giphy.gif) | ![](https://media.giphy.com/media/pZfwwwOlKQtiyJFPr2/giphy.gif) | ![](https://media.giphy.com/media/kPt0nCCWAcahhJsJh6/giphy.gif)
 
-Flinger                    | 
+Flinger                    |   
 :-------------------------:|
-![](https://media.giphy.com/media/OLa80kZcBXLEZlKiFY/giphy.gif) |
+![](https://media.giphy.com/media/OLa80kZcBXLEZlKiFY/giphy.gif) | 
 
 ### Demo UI
 Spotify             |  Instagram Demo | Twitter, Gmail, Youtube                       | Profile
 :-------------------------:|:-------------------------: | :-------------------------: | :-------------------------:
 ![](https://media.giphy.com/media/IddlpOpdboqJwdhxMS/giphy.gif)  |  ![](https://media.giphy.com/media/XSh4SKvAgr6Moj3SDH/giphy.gif) | ![](https://media.giphy.com/media/sEe1vREivaK7ieMPYj/giphy.gif) | ![](https://media.giphy.com/media/n3UTF9SzLpBGneFyj3/giphy.gif)
 
-Gmail full             |  Tiktok
-:-------------------------:|:-------------------------:
-![](https://media.giphy.com/media/hrOVD7rbST5shclGkQ/giphy.gif)  |  ![](https://media.giphy.com/media/cimocpJnmSBeJIPxu2/giphy.gif)
-
+Gmail full             |  Tiktok             |  Meditation
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://media.giphy.com/media/hrOVD7rbST5shclGkQ/giphy.gif)  |  ![](https://media.giphy.com/media/cimocpJnmSBeJIPxu2/giphy.gif)  |  ![](https://media.giphy.com/media/4ijPfCItGfgdGJmTfA/giphy.gif)
 
 ### Apps with Api, Retrofit, Room, Flow, Livedata Integration
-CryptoApp MVVM             |  MovieApp MVI              | Dating APP DEMO UI
-:-------------------------:|:-------------------------: | :-------------------------:
-![](https://media.giphy.com/media/OtJXUCh2ITINfKuTc0/giphy.gif)  |  ![](https://media.giphy.com/media/BfHMR2EMJkzB1agvpk/giphy.gif) | ![](https://media.giphy.com/media/tVXmwM2ryGlhCcf3Kl/giphy.gif)
+CryptoApp MVVM             |  MovieApp MVI              | Dating APP DEMO UI         | Betty
+:-------------------------:|:-------------------------: | :-------------------------:|:-------------------------:
+![](https://media.giphy.com/media/OtJXUCh2ITINfKuTc0/giphy.gif)  |  ![](https://media.giphy.com/media/BfHMR2EMJkzB1agvpk/giphy.gif) | ![](https://media.giphy.com/media/tVXmwM2ryGlhCcf3Kl/giphy.gif) | ![](https://media.giphy.com/media/Ejeqq59zW3malZ88Si/giphy.gif)
 
 ### Advance lists and animations
 Shimmer Lists             | List Scroll Animations
@@ -74,17 +78,18 @@ Shimmer Lists             | List Scroll Animations
 ![](https://media.giphy.com/media/VQof1yEEbEgcqgY7WW/giphy.gif)  |  ![](https://media.giphy.com/media/hhpnI1beJr6gRi4btK/giphy.gif)
 
 ### Templates
-Adding card details        | 
-:-------------------------:|
-![](https://user-images.githubusercontent.com/8813304/112016144-1e21ef00-8b35-11eb-8c33-362c8cbe6c0d.gif)  | 
+Adding card details        | CaseCade Menu
+:-------------------------:| :-------------------------: 
+![](https://user-images.githubusercontent.com/8813304/112016144-1e21ef00-8b35-11eb-8c33-362c8cbe6c0d.gif)  | ![](https://media.giphy.com/media/WoFe2OZ7kbW2KBkzFN/giphy.gif) 
 
-## If this project helped you in any way feel free to show some love
-<a href="https://www.buymeacoffee.com/gurupreet" target="_blank">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="160">
-</a>
+### Kotlin DSL Templates
+You can find them in *buildSrc*
+- build.bradle
+- dependency
+- configurations
 
 ## How to get started
-Please get **Android Studio Arctic Fox 2020.3.1 Canary 4** or above to build this project [from here](https://developer.android.com/studio/preview/).
+Please get **Android Studio Bumblebee latest Canary** [from here](https://developer.android.com/studio/preview/) and use **JDK 11** to build this project.
 
 ## Features & Where to start
 - __Widgets:__ Widgets Screen show case all the available components to build UI.

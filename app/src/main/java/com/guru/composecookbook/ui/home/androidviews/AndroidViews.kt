@@ -1,6 +1,5 @@
 package com.guru.composecookbook.ui.home.androidviews
 
-import android.animation.ValueAnimator
 import android.content.Context
 import android.os.Bundle
 import android.widget.Button
@@ -10,10 +9,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,7 +23,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import com.airbnb.lottie.LottieAnimationView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -31,6 +31,8 @@ import com.google.android.libraries.maps.MapView
 import com.google.android.libraries.maps.model.LatLng
 import com.google.android.libraries.maps.model.MarkerOptions
 import com.guru.composecookbook.R
+import com.guru.composecookbook.lottie.LottieFoodView
+import com.guru.composecookbook.lottie.LottieLoaderLoadingView
 import com.guru.composecookbook.ui.utils.SubtitleText
 import com.guru.composecookbook.ui.utils.TitleText
 
@@ -42,7 +44,6 @@ fun AndroidViews() {
         AndroidTextView(context)
         AndroidButton(context)
         AndroidLottieView(context)
-        AndroidLottieView2(context)
         AndroidAdView(context)
         AndroidMapView()
         Spacer(modifier = Modifier.height(100.dp))
@@ -54,10 +55,11 @@ fun AndroidTextView(context: Context) {
     SubtitleText(subtitle = "Below is Android Textview")
     //simple android textview creation
     // if you are using xml it can be textview = remember { findViewById(R.id.androidTextView }
+    val textColor = LocalContentColor.current.toArgb()
     val androidTextView = remember {
         TextView(context).apply {
             setText(R.string.about_me)
-            setTextColor(ContextCompat.getColor(context, R.color.black))
+            setTextColor(textColor)
         }
     }
     AndroidView({ androidTextView }, modifier = Modifier.padding(8.dp)) {
@@ -90,38 +92,8 @@ fun AndroidButton(context: Context) {
 @Composable
 fun AndroidLottieView(context: Context) {
     SubtitleText(subtitle = "Android LottieView hosted in compose")
-    val lottieView = remember {
-        LottieAnimationView(context).apply {
-            repeatCount = ValueAnimator.INFINITE
-            setAnimation("loader.json")
-        }
-    }
-
-    AndroidView(
-        { lottieView }, modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp)
-    ) {
-        it.playAnimation()
-    }
-}
-
-@Composable
-fun AndroidLottieView2(context: Context) {
-    val lottieView = remember {
-        LottieAnimationView(context).apply {
-            repeatCount = ValueAnimator.INFINITE
-            setAnimation("food.json")
-        }
-    }
-
-    AndroidView(
-        { lottieView }, modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp)
-    ) {
-        it.playAnimation()
-    }
+    LottieLoaderLoadingView(context = context)
+    LottieFoodView(context)
 }
 
 @Composable

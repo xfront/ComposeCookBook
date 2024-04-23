@@ -36,7 +36,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
-        useIR = true
+      //  useIR = true
         freeCompilerArgs = freeCompilerArgs + "-Xopt-in=kotlin.RequiresOptIn"
 
     }
@@ -50,7 +50,7 @@ android {
         kotlinCompilerExtensionVersion = ProjectConfigs.kotlinCompilerExtensionVersion
     }
     lint {
-        isAbortOnError = false
+        abortOnError = false
     }
     packagingOptions {
         resources.excludes.apply {
@@ -71,17 +71,29 @@ dependencies {
     implementation(project(":demos:instagram"))
     implementation(project(":demos:spotify"))
     implementation(project(":demos:twitter"))
+    implementation(project(":demos:tiktok"))
     implementation(project(":demos:youtube"))
     implementation(project(":demos:gmail"))
+    implementation(project(":demos:datingapp"))
     implementation(project(":demos:paint"))
     implementation(project(":demos:cryptoapp:app"))
     implementation(project(":demos:moviesapp:app"))
+    implementation(project(":demos:meditation"))
+    implementation(project(":templates:onboarding"))
+    implementation(project(":templates:paymentcard"))
+    implementation(project(":templates:pinlock"))
+    implementation(project(":templates:profile"))
+    implementation(project(":templates:login"))
+    implementation(project(":templates:cascademenu"))
     implementation(project(":components:fab"))
     implementation(project(":components:charts"))
     implementation(project(":components:tags"))
     implementation(project(":components:carousel"))
     implementation(project(":components:verticalgrid"))
     implementation(project(":components:colorpicker"))
+    implementation(project(":components:comingsoon"))
+    implementation(project(":animations:canvas"))
+    implementation(project(":animations:lottie"))
 
     addKotlinDependencies()
 
@@ -103,5 +115,5 @@ dependencies {
     addThirdPartyUnitTestsDependencies()
 
     addAndroidInstrumentationTestsDependencies()
-
+    addBiometricDependency()
 }

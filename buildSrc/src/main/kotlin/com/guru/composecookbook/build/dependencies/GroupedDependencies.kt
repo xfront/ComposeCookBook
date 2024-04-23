@@ -4,6 +4,7 @@ internal val composeOfficialDependencies = listOf(
     Dependencies.composeUi,
     Dependencies.composeUiTooling,
     Dependencies.composeMaterial,
+    Dependencies.composeMaterial3,
     Dependencies.composeMaterialIconsExtended,
     Dependencies.composeRuntimeLivedata,
     Dependencies.composeConstraintLayout,
@@ -53,7 +54,7 @@ internal val coreAndroidUiDependencies = listOf(
     Dependencies.androidPaletteKtx,
     Dependencies.androidPagingRuntime,
     Dependencies.lifecycleRuntimeKtx,
-    Dependencies.lifecycleExtensions,
+    Dependencies.lifecycleSavedState,
     Dependencies.liveDataKtx,
     Dependencies.viewModelKtx
 )
@@ -89,6 +90,8 @@ internal val androidInstrumentationTestsDependencies = listOf(
 )
 
 internal val thirdPartyUiDependencies = listOf(
-    Dependencies.coilAccompanist,
-    Dependencies.lottie
+    Dependencies.coilCompose,
+    Dependencies.lottie,
+    Dependencies.composeLottie
 )
+
